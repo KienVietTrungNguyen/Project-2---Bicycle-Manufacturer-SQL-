@@ -13,12 +13,10 @@ Contact Management, and Human Resources.
 The eCommerce dataset is available in a public Google BigQuery dataset. To access it, complete the following steps:
    - Sign in to your Google Cloud Platform account and create a new project.
    - Open the BigQuery console and choose the project you just created.
-   - From the navigation menu, click Add Data, then select Search a project.
-   - Enter the project ID bigquery-public-data.google_analytics_sample.ga_sessions and press Enter.
-   - Click on the ga_sessions_* table to view the data.
+   - From the navigation menu, click Add Data, then select start a project by name.
+   - Enter the adventureworks2019 and press Start
 
-https://support.google.com/analytics/answer/3437719?hl=en
-<img width="924" height="712" alt="Image" src="https://github.com/user-attachments/assets/e962f770-00d9-4764-b1d0-55a2832677dd" />
+https://drive.google.com/file/d/1bwwsS3cRJYOg1cvNppc1K_8dQLELN16T/view?usp=sharing
 # IV. Explore the Dataset
 In this project, I will write 08 query in Bigquery base on Google Analytics dataset
 ## Query 01: Calc Quantity of items, Sales value & Order quantity by each Subcategory in L12M
