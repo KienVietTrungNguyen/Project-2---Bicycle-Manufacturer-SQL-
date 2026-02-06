@@ -1,6 +1,9 @@
 # Project-2---Bicycle-Manufacturer-SQL-
 # I. Introduction
-This project contains an eCommerce dataset that I will explore using SQL on Google BigQuery. The dataset is based on the Google Analytics public dataset and contains data from an eCommerce website.
+- This is a sample Dataedo documentation - AdventureWorks - Microsoft SQL Server sample database.
+- The AdventureWorks database supports standard online transaction processing scenarios for a fictitious bicycle
+manufacturer (Adventure Works Cycles). Scenarios include Manufacturing, Sales, Purchasing, Product Management,
+Contact Management, and Human Resources.
 # II. Requirement
     - Google Cloud Platform account
     - Project on Google Cloud Platform
