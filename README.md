@@ -21,8 +21,24 @@ https://drive.google.com/file/d/1bwwsS3cRJYOg1cvNppc1K_8dQLELN16T/view?usp=shari
 In this project, I will write 08 query in Bigquery base on Google Analytics dataset
 ## Query 01: Calc Quantity of items, Sales value & Order quantity by each Subcategory in L12M
 - SQL code
-
-
+```sql 
+SELECT 
+  FORMAT_DATETIME("%b %Y",saleorder.ModifiedDate) AS Period
+  ,productsub.Name AS Category
+  ,SUM(OrderQty) AS qty
+  ,SUM(saleorder.LineTotal) AS total_sales
+  ,COUNT(DISTINCT saleorder.SalesOrderID ) AS order_qty
+FROM adventureworks2019.Sales.SalesOrderDetail saleorder
+LEFT JOIN adventureworks2019.Production.Product product
+  ON product.ProductID  = saleorder.ProductID
+LEFT JOIN adventureworks2019.Production.ProductSubcategory productsub
+  ON CAST(product.ProductSubcategoryID as int ) = productsub.ProductSubcategoryID
+WHERE DATE(saleorder.ModifiedDate) >= 
+          (SELECT DATE_SUB(MAX(DATE(ModifiedDate)), INTERVAL 12 month)
+          FROM adventureworks2019.Sales.SalesOrderDetail)
+GROUP BY Period, Category
+ORDER BY Period DESC,Category;
+```
 - Query results
 
 
