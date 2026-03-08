@@ -209,21 +209,95 @@ ORDER BY mth_join, month_diff;
 ##  Query 06: Trend of Stock level & MoM diff % by all product in 2011. If %gr rate is null then 0. Round to 1 decimal
 
 - SQL code
+```sql
+WITH 
+raw_data as (
+  SELECT
+      EXTRACT(month from a.ModifiedDate) as mth 
+      , EXTRACT(year from a.ModifiedDate) as yr 
+      , b.Name
+      , SUM(StockedQty) as stock_qty
+  FROM `adventureworks2019.Production.WorkOrder` a
+  LEFT JOIN `adventureworks2019.Production.Product` b ON a.ProductID = b.ProductID
+  WHERE FORMAT_TIMESTAMP("%Y", a.ModifiedDate) = '2011'
+  GROUP BY 1,2,3
+  ORDER BY 1 DESC
+)
 
-
-- Query results
+SELECT  Name
+      , mth, yr 
+      , stock_qty
+      , stock_prv    
+      , ROUND(COALESCE((stock_qty /stock_prv -1)*100 ,0) ,1) as diff   
+FROM (                                                                
+      SELECT *
+      , LEAD (stock_qty) OVER (PARTITION BY Name ORDER BY mth DESC) as stock_prv
+      FROM raw_data
+      )
+ORDER BY 1 ASC, 2 DESC;
+```
+- Query results:
+<img width="1102" height="437" alt="image" src="https://github.com/user-attachments/assets/d0adc115-5099-4ff5-919e-fadab2488d7e" />
 
 
 ##  Query 07: Calc Ratio of Stock / Sales in 2011 by product name, by month. Order results by month desc, ratio desc. Round Ratio to 1 decimal mom yoy
 
 - SQL code
+```sql
+WITH 
+sale_info as (
+  SELECT
+      EXTRACT(month from a.ModifiedDate) as mth 
+     , EXTRACT(year from a.ModifiedDate) as yr 
+     , a.ProductId
+     , b.Name
+     , SUM(a.OrderQty) as sales
+  FROM `adventureworks2019.Sales.SalesOrderDetail` a 
+  LEFT JOIN `adventureworks2019.Production.Product` b 
+    ON a.ProductID = b.ProductID
+  WHERE FORMAT_TIMESTAMP("%Y", a.ModifiedDate) = '2011'
+  GROUP BY 1,2,3,4
+), 
 
+stock_info as (
+  SELECT
+      EXTRACT(month from ModifiedDate) as mth 
+      , EXTRACT(year from ModifiedDate) as yr 
+      , ProductId
+      , SUM(StockedQty) as stock_cnt
+  FROM 'adventureworks2019.Production.WorkOrder'
+  WHERE FORMAT_TIMESTAMP("%Y", ModifiedDate) = '2011'
+  GROUP BY 1,2,3
+)
 
+SELECT
+      a.mth
+    , a.yr
+    , a.ProductId
+    , a.Name
+    , a.sales
+    , b.stock_cnt as stock  --(*)
+    , ROUND(COALESCE(b.stock_cnt,0) / sales,2) as ratio
+FROM sale_info a 
+FULL JOIN stock_info b 
+  ON a.ProductId = b.ProductId
+AND a.mth = b.mth 
+AND a.yr = b.yr
+ORDER BY 1 DESC, 7 DESC;
+```
 - Query results
-
+<img width="1262" height="435" alt="image" src="https://github.com/user-attachments/assets/2c6362a4-57d3-4f87-94da-0c7c92cd8406" />
 
 ## Query 08: No of order and value at Pending status in 2014
 - SQL code
-
-
+```sql
+SELECT 
+  EXTRACT(YEAR FROM ModifiedDate) AS yr
+  ,COUNT(PurchaseOrderID) AS Order_cnt
+  ,SUM(TotalDue) AS value
+FROM adventureworks2019.Purchasing.PurchaseOrderHeader 
+WHERE Status = 1 AND EXTRACT(YEAR FROM ModifiedDate) = 2014
+GROUP BY yr
+```
 - Query results
+<img width="541" height="67" alt="image" src="https://github.com/user-attachments/assets/cbbac734-bed2-4263-98db-ed7721602fdc" />
