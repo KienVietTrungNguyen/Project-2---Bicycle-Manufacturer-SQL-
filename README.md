@@ -44,6 +44,49 @@ ORDER BY Period DESC,Category;
 
 ##  Query 02: Calc % YoY growth rate by SubCategory & release top 3 cat with highest grow rate. Can use metric: quantity_item. Round results to 2 decimal qty_diff = qty_item / prv_qty - 1
 - SQL code
+```sql
+WITH year AS 
+(
+  SELECT
+  EXTRACT(YEAR FROM saleorder.ModifiedDate) AS Period
+    ,productsub.Name AS Category
+    ,SUM(OrderQty) AS qty_item
+  FROM adventureworks2019.Sales.SalesOrderDetail saleorder
+  LEFT JOIN adventureworks2019.Production.Product product
+    ON product.ProductID  = saleorder.ProductID
+  LEFT JOIN adventureworks2019.Production.ProductSubcategory productsub
+    ON CAST(product.ProductSubcategoryID as int ) = productsub.ProductSubcategoryID
+  GROUP BY Period, Category
+  ORDER BY Category ASC ,qty_item DESC
+),
+pre_year AS 
+(
+  SELECT
+    Category
+    ,qty_item
+    ,LAG(qty_item) OVER (PARTITION BY Category ORDER BY Period) AS prv_qty
+    ,ROUND(qty_item / LAG(qty_item) OVER (PARTITION BY Category ORDER BY Period),2) AS qty_diff
+  FROM year
+  ORDER BY qty_diff DESC
+),
+ranked_cte AS 
+(
+  SELECT
+    Category
+    ,qty_item
+    ,prv_qty
+    ,qty_diff
+    ,DENSE_RANK() OVER(ORDER BY qty_diff DESC) AS ranked
+  FROM pre_year
+)
+SELECT
+  Category
+  ,qty_item
+  ,prv_qty
+  ,qty_diff
+FROM ranked_cte
+WHERE ranked <=3
+```
 - Query results
 
 
