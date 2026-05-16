@@ -305,12 +305,12 @@ GROUP BY yr
 # 🔎 Final Conclusion & Recommendations
 
 ## 📌 Insights
-North America accounted for approximately 35%–40% of total sales revenue, making it the strongest-performing region in the dataset.
-Mountain Bikes and Road Bikes contributed more than 50% of total product sales volume, becoming the primary revenue-driving categories.
-Products with discount rates above 20% generated higher order quantities but reduced overall profit margins by around 10%–15%.
-Approximately 20% of repeat customers contributed nearly 60% of total revenue, indicating strong dependence on a small high-value customer segment.
+- North America accounted for approximately 35%–40% of total sales revenue, making it the strongest-performing region in the dataset.
+- Mountain Bikes and Road Bikes contributed more than 50% of total product sales volume, becoming the primary revenue-driving categories.
+- Products with discount rates above 20% generated higher order quantities but reduced overall profit margins by around 10%–15%.
+- Approximately 20% of repeat customers contributed nearly 60% of total revenue, indicating strong dependence on a small high-value customer segment.
 ## 📌 Recommendations
-Increase marketing investment and inventory allocation in high-performing regions such as North America to maximize revenue growth.
-Focus on top-performing bicycle categories while optimizing pricing strategies to improve profit margins.
-Reduce excessive discount campaigns and apply targeted promotions based on customer behavior and product performance.
-Develop loyalty and retention programs for high-value customers to improve repeat purchases and long-term customer lifetime value.
+- Increase marketing investment and inventory allocation in high-performing regions such as North America to maximize revenue growth.
+- Focus on top-performing bicycle categories while optimizing pricing strategies to improve profit margins.
+- Reduce excessive discount campaigns and apply targeted promotions based on customer behavior and product performance.
+- Develop loyalty and retention programs for high-value customers to improve repeat purchases and long-term customer lifetime value.
