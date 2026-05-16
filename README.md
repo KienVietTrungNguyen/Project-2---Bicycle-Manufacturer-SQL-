@@ -42,7 +42,7 @@ ORDER BY Period DESC,Category;
 - Query results:
 <img width="1043" height="433" alt="image" src="https://github.com/user-attachments/assets/b43c4ec0-132b-456c-a2e7-cc834cf581fe" />
 
-##  Query 02: Calc % YoY growth rate by SubCategory & release top 3 cat with highest grow rate. Can use metric: quantity_item. Round results to 2 decimal qty_diff = qty_item / prv_qty - 1
+##  Query 02: Calc % YoY growth rate by SubCategory & release top 3 cat with highest grow rate. 
 - SQL code:
 ```sql
 WITH year AS 
